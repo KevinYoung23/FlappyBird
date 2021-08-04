@@ -85,7 +85,31 @@ def getResult():
     ft2_surf = ft2_font.render(final_text2, 1, (253, 177, 6))                            # 设置第二行文字颜色
     screen.blit(ft1_surf, [screen.get_width() / 2 - ft1_surf.get_width() / 2, 100])  # 设置第一行文字显示位置
     screen.blit(ft2_surf, [screen.get_width() / 2 - ft2_surf.get_width() / 2, 200])  # 设置第二行文字显示位置
-    pygame.display.flip()                     
+    pygame.display.flip()   
+
+def main(start):  
+    while not start:
+        start = readyToStart()
+                   
+    while True:
+        clock.tick(60)
+        for event in pygame.event.get():
+            if event.type == pygame.QUIT:
+                sys.exit()
+            if (event.type == pygame.KEYDOWN or event.type == pygame.MOUSEBUTTONDOWN) and not Bird.dead:
+                Bird.jump = True
+                Bird.gravity = 4
+                Bird.jumpSpeed = 10
+        background = pygame.image.load('image/background.png')
+    
+        if checkDead():
+            getResult()
+        else:
+            createMap()
+     
+        pygame.display.flip()
+    
+    pygame.quit()                  
 
 
 if __name__ == '__main__':
@@ -95,34 +119,11 @@ if __name__ == '__main__':
     clock = pygame.time.Clock()
     size = width, height = 288, 512
     screen = pygame.display.set_mode(size)
-    
-    pygame.display.set_caption("Flappy Bird Alpha")
+    background = pygame.image.load('image/background.png')
+    pygame.display.set_caption("Flappy Bird Beta")
     
     Pipeline = pipeline.Pipeline()
     Bird = bird.Bird()
     start = readyToStart()
-
     
-
-while not start:
-    start = readyToStart()
-               
-while True:
-    clock.tick(60)
-    for event in pygame.event.get():
-        if event.type == pygame.QUIT:
-            sys.exit()
-        if (event.type == pygame.KEYDOWN or event.type == pygame.MOUSEBUTTONDOWN) and not Bird.dead:
-            Bird.jump = True
-            Bird.gravity = 4
-            Bird.jumpSpeed = 10
-    background = pygame.image.load('image/background.png')
-
-    if checkDead():
-        getResult()
-    else:
-        createMap()
- 
-    pygame.display.flip()
-
-pygame.quit()
+    main(start)
