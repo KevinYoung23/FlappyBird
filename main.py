@@ -117,6 +117,7 @@ if __name__ == '__main__':
     pygame.font.init()
     font = pygame.font.SysFont("Arial", 50)  
     clock = pygame.time.Clock()
+
     size = width, height = 288, 512
     screen = pygame.display.set_mode(size)
     background = pygame.image.load('image/background.png')
