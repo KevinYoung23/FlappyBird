@@ -22,8 +22,10 @@ def readyToStart():
     
     background = pygame.image.load('image/background.png')
     start_icon = pygame.image.load('image/button_play.png')
+    ready_bird = pygame.image.load('image/bird_wingDown.png')
     screen.blit(background, (0, 0))
     screen.blit(start_icon, (86, 350))
+    screen.blit(ready_bird, (50, 250))
     pygame.display.flip()
     mouse_x, mouse_y = pygame.mouse.get_pos()
     for event in pygame.event.get():
@@ -48,11 +50,14 @@ def createMap():
     
     if Bird.dead:
         Bird.status = 2
-    elif Bird.jump:
-        Bird.status = 1
     else:
-        Bird.status = 0
-    screen.blit(Bird.birdStatus[Bird.status], (Bird.birdX, Bird.birdY - 20)) #调整贴图的位置，使得其碰撞位置更加准确
+        if Bird.status == 1:
+            Bird.status = 0
+        elif Bird.status == 0:
+            Bird.status = 1
+        
+    
+    screen.blit(Bird.birdStatus[Bird.status], (Bird.birdX, Bird.birdY - 12)) #调整贴图的位置，使得其碰撞位置显示更加准确
     Bird.__Movement__()
     
     displayScore()
