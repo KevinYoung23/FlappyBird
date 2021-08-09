@@ -7,6 +7,7 @@ Created on Mon Aug  2 17:38:10 2021
 
 import bird
 import pipeline
+import textbox
 import pygame
 import sys 
                  
@@ -92,11 +93,11 @@ def getResult():
     screen.blit(ft2_surf, [screen.get_width() / 2 - ft2_surf.get_width() / 2, 200])  # 设置第二行文字显示位置
     pygame.display.flip()   
 
-def main(start):  
+def main(start, dead):  
     while not start:
         start = readyToStart()
                    
-    while True:
+    while not dead:
         clock.tick(60)
         for event in pygame.event.get():
             if event.type == pygame.QUIT:
@@ -109,9 +110,24 @@ def main(start):
     
         if checkDead():
             getResult()
+            dead = True
+            break
         else:
             createMap()
      
+        pygame.display.flip()
+    
+    TextBox = textbox.Textbox(200, 30, 44, 300, callback=textbox.callback)
+    
+    while dead:
+        clock.tick(60)
+        for event in pygame.event.get():
+            if event.type == pygame.QUIT:
+                sys.exit()
+            elif event.type == pygame.KEYDOWN:
+                TextBox.key_down(event)
+        pygame.time.delay(33)
+        TextBox.draw(screen)
         pygame.display.flip()
     
     pygame.quit()                  
@@ -131,5 +147,6 @@ if __name__ == '__main__':
     Pipeline = pipeline.Pipeline()
     Bird = bird.Bird()
     start = readyToStart()
+    dead = False
     
-    main(start)
+    main(start, dead)
