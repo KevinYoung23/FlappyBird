@@ -93,7 +93,7 @@ def getResult():
     screen.blit(ft2_surf, [screen.get_width() / 2 - ft2_surf.get_width() / 2, 200])  # 设置第二行文字显示位置
     pygame.display.flip()   
 
-def main(start, dead):  
+def main(start, dead, enter):  
     while not start:
         start = readyToStart()
                    
@@ -117,9 +117,15 @@ def main(start, dead):
      
         pygame.display.flip()
     
-    TextBox = textbox.Textbox(200, 30, 44, 300, callback=textbox.callback)
+    TextBox = textbox.Textbox(200, 30, 44, 350, callback=textbox.callback)
     
-    while dead:
+    final_text3 = "Enter your name here"
+    ft3_font = pygame.font.SysFont('Arial', 20)
+    ft3_surf = ft3_font.render(final_text3, 1, (200, 200, 200))
+    screen.blit(ft3_surf, [screen.get_width() / 2 - ft3_surf.get_width() / 2, 300])
+    pygame.display.flip()
+    
+    while dead and not enter:
         clock.tick(60)
         for event in pygame.event.get():
             if event.type == pygame.QUIT:
@@ -129,6 +135,14 @@ def main(start, dead):
         pygame.time.delay(33)
         TextBox.draw(screen)
         pygame.display.flip()
+        enter = textbox.enter
+    username = TextBox.text
+    score = pipeline.score
+    
+    file = open('rank.txt', mode = 'a+')
+    content = username + ' : ' +  str(score) + '\n'
+    file.write(content)
+    file.close()
     
     pygame.quit()                  
 
@@ -148,5 +162,6 @@ if __name__ == '__main__':
     Bird = bird.Bird()
     start = readyToStart()
     dead = False
+    enter = False
     
-    main(start, dead)
+    main(start, dead, enter)

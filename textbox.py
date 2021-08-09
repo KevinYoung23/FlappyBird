@@ -7,6 +7,8 @@ Created on Wed Aug  4 15:23:47 2021
 import pygame
 import sys
 
+enter = False
+
 class Textbox:
     def __init__(self, w, h, x, y, callback = None):
         self.width = w
@@ -37,10 +39,9 @@ class Textbox:
             return
         elif key == 13:
             if self.callback is not None:
-                global username
+                global enter
                 self.callback()
-                username = self.text
-                print(username)
+                enter = True
             return
         else:
             if unicode != "":
@@ -52,6 +53,7 @@ class Textbox:
 
 def callback():
     print("enter test")
+    return True
 
 def main():
     pygame.init()
